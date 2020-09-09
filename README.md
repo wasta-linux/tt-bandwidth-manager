@@ -1,5 +1,5 @@
 # tt-bandwidth-manager
-Use a systemd service to manage bandwidth usage by:
+Manage bandwidth usage via a systemd service by:
 - setting global (per-device) download and upload bandwidth limits
 - setting per-process bandwidth limits
 - prioritizing some process higher than others
@@ -10,7 +10,7 @@ It's composed of 3 parts:
 - the python3 package installed at /usr/local/bin/tt
 - a config file installed at /usr/share/tt-bandwidth-manager/tt-config.yaml
   - There is also an example config file in the same folder called tt-example.yaml.
-- a wrapper script that applies the configuration to the currently used network device
+- a wrapper script installed at /usr/bin/tt-wrapper that applies the configuration to the currently used network device
 
 By default the service runs whenever there is a connection to the internet. It can be started and stopped with the usual systemd commands:
 - $ sudo systemctl start tt-bandwidth-manager.service

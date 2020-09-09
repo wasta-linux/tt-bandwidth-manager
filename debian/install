@@ -1,0 +1,3 @@
+files/tt-bandwidth-manager.service  /etc/systemd/system
+files/tt-config.yaml                /usr/share/tt-bandwidth-manager
+files/tt-example.yaml               /usr/share/tt-bandwidth-manager

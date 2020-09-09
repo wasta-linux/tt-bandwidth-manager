@@ -1,0 +1,12 @@
+Source: tt-bandwidth-manager
+Section: utils
+Priority: optional
+Maintainer: Nate Marti <nate_marti@sil.org>
+Build-Depends: debhelper (>= 9.0.0)
+Standards-Version: 3.9.7
+Homepage: https://github.com/wasta-linux/tt-bandwidth-manager
+
+Package: tt-bandwidth-manager
+Architecture: all
+Depends: python3, ${misc:Depends}
+Description: Manage bandwidth usage via a systemd service.

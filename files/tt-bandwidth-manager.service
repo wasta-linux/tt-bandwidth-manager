@@ -1,0 +1,13 @@
+[Unit]
+Description=Manage bandwidth usage
+BindsTo=network-online.target
+After=network-online.target
+
+[Service]
+KillSignal=SIGINT
+ExecStart=/home/nate/bin/tt-wrapper
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
