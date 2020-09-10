@@ -13,7 +13,7 @@ case "$1" in
         #   If not, later updates to package won't install either because
         #   the broken version will attempt to keep installing until manually
         #   uninstalled.
-        bash /usr/share/tt-bandwith-manager/tt-bandwith-manager-postinst.sh
+        bash /usr/share/tt-bandwith-manager/tt-bandwidth-manager-postinst.sh
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
