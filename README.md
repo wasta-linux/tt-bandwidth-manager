@@ -20,7 +20,8 @@ The default config is intentionally very conservative. It limits a couple of pro
 
 NOTE: This is currently designed as a system-wide service, so in the case that
 multiple users each have their own config override, the most recently modified
-config override file will be used.
+config override file will be used. Likewise, if only one user has their own
+config override, it will still be applied systemwide and affect all users.
 
 ### Starting and stopping tt-bandwidth-manager.service
 By default the service runs whenever there is a connection to the internet. It can be started and stopped with the usual systemd commands:
