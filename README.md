@@ -29,7 +29,7 @@ By default the service runs whenever there is a connection to the internet. It c
 ```bash
 $ sudo systemctl restart tt-bandwidth-manager.service # e.g., if you change the config file
 $ sudo systemctl stop tt-bandwidth-manager.service    # temporarily stop bw management
-$ sudo systemctl disable tt-bandwidth-manager.service # prevent it from starting reboot
+$ sudo systemctl disable tt-bandwidth-manager.service # prevent it from starting on reboot
 $ sudo systemctl enable tt-bandwidth-manager.service  # allow it start on reboot
 $ sudo systemctl start tt-bandwidth-manager.service   # start the service immediately
 ```
