@@ -1,6 +1,19 @@
 #!/bin/bash
 
+# Select device based on current internet route.
 device=$(ip route | grep 'default' | awk '{print $5}')
-config="/home/nate/traffictoll-config.yaml"
+
+# Define default config.
+config="/usr/share/tt-bandwidth-manager/tt-config.yaml"
+
+# Override with user config, if it exists.
+# Get [potential list of] user config file(s) and sort by modified time, newest first.
+user_config_list=$(find /home/*/.config -name tt-config.yaml \
+    -exec stat -c '%Y|%n' '{}' \; | sort -rn | awk -F'|' '{print $2}')
+# Choose newest file as preferred user config.
+user_config=$(echo $list | awk '{print $1}')
+if [[ -r $user_config ]]; then
+    config="$user_config"
+fi
 
 /usr/local/bin/tt "$device" "$config"

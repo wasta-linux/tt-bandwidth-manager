@@ -1,3 +1,6 @@
+# This example config file take from TrafficToll's GitHub page:
+# https://github.com/cryzed/TrafficToll
+
 # The rate limits for the specified interface. Specifying these values is useful for two
 # things: 1) you want to limit the used bandwidth for the entire interface or 2) you
 # want to make use of traffic prioritization.
@@ -43,7 +46,7 @@ processes:
   "Path of Exile":
     # Adjust the traffic priority to 0 (highest possible, higher integers mean _lower_
     # priority) to prevent lag and high pings in the game even when we create heavy
-    # traffic otherwise. If these priorities are omitted, they will default to 0, the
+    # traffic otherwise. If these priorities are omitted, they will default to 0: the
     # same priority for all the traffic on the interface. As soon as you explicitly
     # specify a priority for a process, the other traffic on the interface will get a
     # lower priority, so will other processes where you did not explicitly specify
@@ -55,8 +58,8 @@ processes:
 
     # Download and upload rate limits can be entirely omitted if you don't want to apply
     # any, in this case traffic will only be prioritized like specified.
-    #download:-
-    #upload:-
+    #download:
+    #upload:
 
     # The match section. A process is selected when all predicates in the match section
     # match. Every attribute psutil.Process

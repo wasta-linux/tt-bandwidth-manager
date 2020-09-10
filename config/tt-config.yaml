@@ -1,50 +1,69 @@
-# The rate limits for the specified interface. Specifying these values is useful for two
-# things: 1) you want to limit the used bandwidth for the entire interface or 2) you
-# want to make use of traffic prioritization.
+### tt-bandwidth-manager (TrafficToll) configuration file.
 
-# If you want to 1) limit the used bandwidth for the entire interface, simply specify
-# values below your actual speed: the traffic will be shaped in such a way, that it does
-# not exceed the specified numbers.
+# All bandwidth limits specified here are applied automatically to whichever
+# interface has the active internet connection.
 
-# If you want to 2) make use of the traffic prioritization feature, these values must be
-# as close as possible to your real speed: if they are too low, traffic prioritization
-# will work, but you are losing part of your bandwidth; if they are too high, traffic
-# prioritization won't work as well as it could. I recommend you use some internet speed
-# test you can find online to get an approximation for the correct values.
-
-# If you don't want to do 1) or 2), you can omit these values. Bandwidth limiting per
-# application will still work, just traffic prioritization won't work as well or
-# entirely.
-
+# ------------------------------------------------------------------------------
+# Global bandwidth limits are specified first. Setting these limits can be
+# useful for two reasons:
+#   1) you want to limit the used bandwidth for the entire interface or
+#   2) you want to make use of traffic prioritization
+#
+# If you want to 1) limit the used bandwidth for the entire interface, simply
+# specify values below your actual speed: the traffic will be shaped in such a
+# way, that it does not exceed the specified numbers.
+#
+# If you want to 2) make use of the traffic prioritization feature, these values
+# must be as close as possible to your real speed: if they are too low, traffic
+# prioritization will work, but you are losing part of your bandwidth; if they
+# are too high, traffic prioritization won't work as well as it could. I
+# recommend you use some internet speed test you can find online to get an
+# approximation for the correct values.
+#
+# If you don't want to do 1) or 2), you can omit these values. Bandwidth
+# limiting per application will still work, just traffic prioritization won't
+# work as well or entirely.
+#
 # Units can be specified in all formats that tc supports, namely:
-#   bit (with and without suffix), kbit, mbit, gbit, tbit, bps, kbps, mbps, gbps, tbps.
-#   To specify in IEC units, replace the SI prefix (k-, m-, g-, t-) 
+#   bit, kbit, mbit, gbit, tbit, bps, kbps, mbps, gbps, tbps.
+#   To specify in IEC units, replace the SI prefix (k-, m-, g-, t-)
 #   with IEC prefix (ki-, mi-, gi- and ti-) respectively.
+# Some examples for clarity:
+#   bit = bits per second
+#   kbit = kilobits per second
+#   bps = bytes per second
+#   kbps = kilobytes per second  (1000 bytes per second)
+#   kibps = kibibytes per second (1024 bytes per second)
+# ------------------------------------------------------------------------------
 
 # Global (device) BW limits.
-download: 2mbit
-upload: 2mbit
+#download: 250kbps
+#upload: 250kbps
 
-# Guaranteed download and upload rates for all global traffic that is not shaped as part
-# of a matched process by TrafficToll. The idea here is to leave enough "guaranteed"
-# bandwidth to all applications not defined in "processes", so that they are not starved
-# to a bandwidth, by processes with higher priority, that would cause the other IP to
-# drop the connection. These are the default values, if omitted. Keep in mind that this
-# doesn't reserve the bandwidth -- if this traffic is not made use of, it's available
-# to processes with higher priority.
+# ------------------------------------------------------------------------------
+# Guaranteed download and upload rates for all global traffic that is not shaped
+# as part of a matched process by TrafficToll. The idea here is to leave enough
+# "guaranteed" bandwidth to all applications not defined in "processes", so that
+# they are not starved to a bandwidth, by processes with higher priority, that
+# would cause the other IP to drop the connection. These are the default values,
+# if omitted. Keep in mind that this doesn't reserve the bandwidth -- if this
+# traffic is not made use of, it's available to processes with higher priority.
+# ------------------------------------------------------------------------------
 
 # Global (device) guaranteed BW for non-managed traffic.
-download-minimum: 128kbit
-upload-minimum: 128kbit
+#download-minimum: 128kbit
+#upload-minimum: 128kbit
 
-# The global download and upload priority. This will be the priority for traffic that is
-# not created by any of the processes. By default it will always be the lowest priority
-# if any of the processes specify a download or upload priority explicitly, otherwise
-# all traffic will have the same priority.
+# ------------------------------------------------------------------------------
+# The global download and upload priority. This will be the priority for traffic
+# that is not created by any of the processes. By default it will always be the
+# lowest priority if any of the processes specify a download or upload priority
+# explicitly, otherwise all traffic will have the same priority.
+# ------------------------------------------------------------------------------
 
 # Global priority for non-managed traffic. "0" is top priority.
-#download-priority: 0
-#upload-priority: 0
+#download-priority: 1
+#upload-priority: 1
 
 # A list of processes you want to match and their respective settings
 processes:
@@ -53,42 +72,54 @@ processes:
     download-priority: 0
     upload-priority: 0
 
-    # Download and upload rate limits can be entirely omitted if you don't want to apply
-    # any, in this case traffic will only be prioritized like specified.
-    #download:-
-    #upload:-
-    #download: 320kbit
-    #upload: 128kbit
+    # --------------------------------------------------------------------------
+    # Download and upload rate limits can be entirely omitted if you don't want
+    # to apply any, in this case traffic will only be prioritized like specified.
+    # --------------------------------------------------------------------------
+    #download:
+    #upload:
 
-    # The match section. A process is selected when all predicates in the match section
-    # match. Every attribute psutil.Process
-    # (https://psutil.readthedocs.io/en/latest/index.html#psutil.Process) provides on
-    # Linux can be matched on, using regular expressions. Integer attributes will be
-    # treated as strings and list attributes will be joined using shlex.join() before
-    # matching. If you want to, you can also specify a regular expression with an OR
-    # operator and match many processes which will all share the specified bandwidth
-    # limit or traffic priority.
-    # If you do not see a line starting with "Shaping traffic for..." with your process
-    # name in it, while it is clearly causing traffic, your match section is failing.
-    # Please make sure it works correctly.
+    # --------------------------------------------------------------------------
+    # The match section. A process is selected when all predicates in the match
+    # section match. Every attribute psutil.Process
+    # provides on Linux can be matched on, using regular expressions.
+    # See more at:
+    # https://psutil.readthedocs.io/en/latest/index.html#psutil.Process
+    #
+    # For example:
+    #   "- name:" (uses regex)
+    #   "- exe:" (needs full path to executable)
+    #   "- cmdline:" (uses regex)
+    #
+    # Verify that your match works by checking the log with:
+    # $ journalctl -u tt-bandwidth-manager
+    # If you do not see a line starting with "Shaping traffic for..." with your
+    # process name in it while it is clearly causing traffic, your match section
+    # is failing.
+    # --------------------------------------------------------------------------
     match:
-      # "- name" (uses regex) = pgrep -l [term]
-      # "- exe" (needs full path to executable) = pgrep -a [term]
-      # "- cmdline" (uses regex)
       - name: speedtest
 
-  "Spotify":
-    download-priority: 2
-    upload-priority: 2
-    download: 128kbit
-    upload: 64kbit
+  "Skype":
+    download-priority: 0
+    upload-priority: 0
+    download: 70kbps
+    upload: 35kbps
     match:
-      - name: spotify
+      - name: skype
+
+#  "Spotify":
+#    download-priority: 2
+#    upload-priority: 2
+#    download: 128kbit
+#    upload: 64kbit
+#    match:
+#      - name: spotify
 
   "Zoom":
     download-priority: 0
     upload-priority: 0
-    download: 550kbit
-    upload: 250kbit
+    download: 70kbps
+    upload: 35kbps
     match:
       - exe: /opt/zoom/zoom
