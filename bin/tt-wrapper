@@ -11,9 +11,11 @@ config="/usr/share/tt-bandwidth-manager/tt-config.yaml"
 user_config_list=$(find /home/*/.config -name tt-config.yaml \
     -exec stat -c '%Y|%n' '{}' \; | sort -rn | awk -F'|' '{print $2}')
 # Choose newest file as preferred user config.
-user_config=$(echo $list | awk '{print $1}')
+user_config=$(echo $user_config_list | awk '{print $1}')
+echo "User config (if found): $user_config"
 if [[ -r $user_config ]]; then
     config="$user_config"
 fi
+echo "Config used: $config"
 
 /usr/local/bin/tt "$device" "$config"
