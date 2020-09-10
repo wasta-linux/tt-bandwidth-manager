@@ -28,5 +28,5 @@ By default the service runs whenever there is a connection to the internet. It c
 - $ sudo systemctl restart tt-bandwidth-manager.service # if you change the config file, for example.
 
 Runtime logging can be found as with all systemd services using:
-- $ systemctl status tt-bandwith-manager.service
+- $ systemctl status tt-bandwidth-manager.service
 - $ journalctl -u tt-bandwidth-manager.service

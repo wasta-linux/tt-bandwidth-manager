@@ -1,5 +1,5 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: tt-bandwith-manager
+Upstream-Name: tt-bandwidth-manager
 Source: https://launchpad.net/~wasta-linux
 
 Files: *
