@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 KillSignal=SIGINT
-ExecStart=/home/nate/bin/tt-wrapper
+ExecStart=/usr/bin/tt-wrapper
 Restart=always
 RestartSec=5
 
