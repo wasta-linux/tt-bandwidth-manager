@@ -26,7 +26,7 @@ config override, it will still be applied systemwide and affect all users.
 
 ### Starting and stopping tt-bandwidth-manager.service
 By default the service runs whenever there is a connection to the internet. It can be started and stopped with the usual systemd commands:
-```
+```bash
 $ sudo systemctl restart tt-bandwidth-manager.service # e.g., if you change the config file
 $ sudo systemctl stop tt-bandwidth-manager.service    # temporarily stop bw management
 $ sudo systemctl disable tt-bandwidth-manager.service # prevent it from starting reboot
@@ -36,7 +36,7 @@ $ sudo systemctl start tt-bandwidth-manager.service   # start the service immedi
 
 ### Viewing the log file
 Runtime logging can be found as with all systemd services using:
-```
+```bash
 $ systemctl status tt-bandwidth-manager.service       # see if the service is running
 $ journalctl -u tt-bandwidth-manager.service          # full historical log
 $ journalctl -f -u tt-bandwidth-manager.service       # "follow" the log live
