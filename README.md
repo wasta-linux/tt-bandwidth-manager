@@ -13,18 +13,18 @@ Use prioritization if your available bandwidth is limited; e.g. you want to ensu
 
 It's composed of 4 parts:
 - The traffictoll python3 package whose executable is installed at /usr/local/bin/tt.
-- A default config file installed at /etc/tt-bandwidth-manager/tt-config.yaml.
-  - There is also an example config file in the same folder called tt-example.yaml.
+- A default config file installed at /etc/tt-config.yaml.
+  - There is also an example config file at /usr/share/tt-bandwidth-manager/tt-example.yaml.
 - A wrapper script installed at /usr/bin/tt-wrapper that:
   - selects the current networking device
   - selects the correct configuration file
   - starts the tt executable
-- A service unit file called tt-bandwidth-manager.service that configures systemd to manage the app.
+- A service unit file called tt-bandwidth-manager.service that configures systemd to manage the process.
 
 ### Modifying the default bandwidth management configuration
 The default config is intentionally very conservative. It limits a couple of processes and gives some explanatory info. This config file requires elevated privileges to edit, so for convenience you may create a user config file under ~/.config/ like this:
 ```bash
-$ cp /usr/share/tt-bandwidth-manager/tt-config.yaml $HOME/.config/tt-config.yaml
+$ cp /etc/tt-config.yaml $HOME/.config/tt-config.yaml
 ```
 If this file exists, **tt-bandwidth-manager** will use it instead of the default file.
 > NOTE: This is currently designed as a system-wide service, so in the case that multiple users each have their own config file, the most recently modified user config file will be used. Likewise, if only one of multiple users has their own config file, it will still be applied system wide and affect any other users.
