@@ -5,10 +5,10 @@ echo "Installing traffictoll python3 package..."
 pip3 install --system --ignore-installed traffictoll
 
 # Set default config if none already present.
-d=/usr/share/tt-bandwidth-manager
+dir=/usr/share/tt-bandwidth-manager
 config=tt-config.yaml
-if [[ ! -e $d/$config ]]; then
-    cp $d/tt-default-config.yaml $d/$config
+if [[ ! -e /etc/$config ]]; then
+    cp $dir/tt-default-config.yaml /etc/$config
 fi
 
 # Ensure proper configuration of systemd service.
