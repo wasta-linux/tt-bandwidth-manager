@@ -14,7 +14,7 @@ It's composed of 3 parts:
 
 ### Modifying the default bandwidth management configuration
 The default config is intentionally very conservative. It limits a couple of processes and gives some explanatory info. This config file requires elevated privileges to edit, so for convenience you may create a user config file under ~/.config/ like this:
-```
+```bash
 $ cp /usr/share/tt-bandwidth-manager/tt-config.yaml $HOME/.config/tt-config.yaml
 ```
 If this file exists, **tt-bandwidth-manager** will use it instead of the default file.
