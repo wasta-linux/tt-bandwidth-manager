@@ -9,7 +9,7 @@ Manage bandwidth usage via a systemd service by:
 - Use prioritization if your available bandwidth is limited; e.g. you want to ensure that your audio calls go through, even if you're also downloading updates.
 
 ### About
-**tt-bandwidth-manager** is based on [TrafficToll](https://github.com/cryzed/TrafficToll) python3 package developed by [cryzed](https://github.com/cryzed), but it's built as a debian package and modified to run as a systemd service.
+**tt-bandwidth-manager** is based on the [TrafficToll](https://github.com/cryzed/TrafficToll) python3 package developed by [cryzed](https://github.com/cryzed), but it's built as a debian package and modified to run as a systemd service.
 
 It's composed of 4 parts:
 - The traffictoll python3 package whose executable is installed at /usr/local/bin/tt.
