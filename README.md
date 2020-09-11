@@ -1,8 +1,8 @@
 # tt-bandwidth-manager
 Manage bandwidth usage via a systemd service by:
-- setting global (per-device) download and upload bandwidth limits
+- setting global download and upload bandwidth limits
 - setting per-process bandwidth limits
-- prioritizing some process higher than others
+- prioritizing some processes higher than others
 
 ### Use cases
 - Use the bandwidth limits if you pay for data by the MB; e.g. you don't want your audio or video calls to use more data than they absolutely need.
@@ -29,7 +29,7 @@ $ cp /etc/tt-config.yaml $HOME/.config/tt-config.yaml
 If this file exists, **tt-bandwidth-manager** will use it instead of the default file.
 > NOTE: This is currently designed as a system-wide service, so in the case that multiple users each have their own config file, the most recently modified user config file will be used. Likewise, if only one of multiple users has their own config file, it will still be applied system wide and affect any other users.
 
-Explanations of configuration options can be found in the default config file at [/etc/tt-config.yaml](config/tt-default-config.yaml), as well as in an example file at [/usr/share/tt-bandwidth-manager/tt-example](config/tt-example.yaml) created by [cryzed](https://github.com/cryzed).
+Explanations of configuration options can be found in the default config file at [/etc/tt-config.yaml](config/tt-default-config.yaml), as well as in an example file at [/usr/share/tt-bandwidth-manager/tt-example.yaml](config/tt-example.yaml) created by [cryzed](https://github.com/cryzed).
 
 ### Starting and stopping tt-bandwidth-manager.service
 By default the service runs whenever there is a connection to the internet. It can be started and stopped with the usual systemd commands:
@@ -48,3 +48,4 @@ $ systemctl status tt-bandwidth-manager.service       # see if the service is ru
 $ journalctl -u tt-bandwidth-manager.service          # full historical log
 $ journalctl -f -u tt-bandwidth-manager.service       # "follow" the log live
 ```
+![screenshot](screenshot.png)
