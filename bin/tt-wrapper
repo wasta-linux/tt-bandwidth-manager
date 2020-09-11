@@ -4,8 +4,7 @@
 device=$(ip route | grep 'default' | awk '{print $5}')
 
 # Define default config.
-config="/usr/share/tt-bandwidth-manager/tt-config.yaml"
-
+config="/etc/tt-config.yaml"
 # Override with user config, if it exists.
 # Get [potential list of] user config file(s) and sort by modified time, newest first.
 user_config_list=$(find /home/*/.config -name tt-config.yaml \
