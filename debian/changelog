@@ -1,3 +1,9 @@
+tt-bandwidth-manager (0.2) focal; urgency=medium
+
+  * Multiple minor fixes.
+
+ -- Nate Marti <nate_marti@sil.org>  Tue, 22 Sep 2020 15:42:55 +0100
+
 tt-bandwidth-manager (0.1) focal; urgency=medium
 
   * Initial release.
