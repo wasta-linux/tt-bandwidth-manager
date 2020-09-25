@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # Select device based on current internet route.
-device=$(ip route | grep 'default' | awk '{print $5}')
+#device=$(ip route | grep 'default' | awk '{print $5}')
+real_gw=$(traceroute -m1 -n google.com | tail -n1 | awk '{print $2}')
+device=$(ip route | grep $real_gw | sed -r 's/default via //' | awk '{print $3}')
+echo "Setup; device: $device"
 
 # Define default config.
 config="/etc/tt-config.yaml"
@@ -11,10 +14,11 @@ user_config_list=$(find /home/*/.config -name tt-config.yaml \
     -exec stat -c '%Y|%n' '{}' \; | sort -rn | awk -F'|' '{print $2}')
 # Choose newest file as preferred user config.
 user_config=$(echo $user_config_list | awk '{print $1}')
-echo "User config (if found): $user_config"
+#echo "Setup; user config (if found): $user_config"
 if [[ -r $user_config ]]; then
     config="$user_config"
 fi
-echo "Config used: $config"
+echo "Setup; config used: $config"
 
+# Start TrafficToll.
 /usr/local/bin/tt "$device" "$config"
