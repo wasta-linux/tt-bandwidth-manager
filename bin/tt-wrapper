@@ -3,7 +3,7 @@
 # Select device based on current internet route.
 #device=$(ip route | grep 'default' | awk '{print $5}')
 real_gw=$(traceroute -m1 -n google.com | tail -n1 | awk '{print $2}')
-device=$(ip route | grep $real_gw | sed -r 's/default via //' | awk '{print $3}')
+device=$(ip route | grep " $real_gw " | sed -r 's/default via //' | awk '{print $3}')
 echo "Setup; device: $device"
 
 # Define default config.
