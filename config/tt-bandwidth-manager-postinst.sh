@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Install TrafficToll python package.
-echo "Installing traffictoll python3 package..."
-pip3 install --system --ignore-installed traffictoll
-
 # Set default config if none already present.
 dir=/usr/share/tt-bandwidth-manager
 config=tt-config.yaml

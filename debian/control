@@ -8,5 +8,5 @@ Homepage: https://github.com/wasta-linux/tt-bandwidth-manager
 
 Package: tt-bandwidth-manager
 Architecture: all
-Depends: python3, python3-pip, ${misc:Depends}
+Depends: python3, python3-traffictoll, ${misc:Depends}
 Description: Manage bandwidth usage via a systemd service.

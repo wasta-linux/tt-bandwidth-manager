@@ -1,3 +1,9 @@
+tt-bandwidth-manager (0.3) focal; urgency=medium
+
+  * Fixed to depend on deb package rather than pip install.
+
+ -- Nate Marti <nate_marti@sil.org>  Tue, 29 Sep 2020 12:15:31 +0100
+
 tt-bandwidth-manager (0.2) focal; urgency=medium
 
   * Multiple minor fixes.
