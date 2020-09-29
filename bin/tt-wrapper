@@ -21,4 +21,4 @@ fi
 echo "Setup.config: $config"
 
 # Start TrafficToll.
-/usr/local/bin/tt "$device" "$config"
+/usr/bin/tt "$device" "$config"
