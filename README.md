@@ -38,7 +38,45 @@ $ journalctl -f -u tt-bandwidth-manager.service       # "follow" the log live
 ![screenshot](screenshot.png)
 
 ## Changing the network connection device
-Normally, if you change your connection device (e.g. from Wi-Fi to Ethernet), **tt-bandwidth-manager** will recognize the
+Normally, if you change your connection device (e.g. from Wi-Fi to Ethernet), **tt-bandwidth-manager** will recognize the change and adapt accordingly. This is known to *not* work as expected when the new connection is a newly-enabled wireguard VPN, and it may also be the case when turning on other VPNs.
+
+If ```systemctl status tt-bandwidth-manager.service``` shows that the app is managing a network interface other than the current one, e.g. wlp2s0 (Wi-Fi device interface) instead of wgpia0 (wireguard VPN interface), please use ```systemctl restart tt-bandwidth-manager.service``` to update it. This may also be needed when the VPN is turned off, if the VPN's interface still exists.
+
+For example, you've been using **tt-bandwidth-manager** and you just turned on your PIA VPN:
+```bash
+$ ip -br address
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+wlp2s0           UP             192.168.43.56/24 [ipv6 address]/64 # Wi-Fi interface
+ifb0             UNKNOWN        [ipv6 address]/64                  # interface created by tt-bandwidth-manager
+wgpia0           UNKNOWN        10.63.229.219/32                   # PIA VPN interface
+```
+But **tt-bandwidth-manager** is still managing traffic on wlp2s0 (see the last line before recent log output):
+```bash
+$ systemctl status tt-bandwidth-manager.service
+● tt-bandwidth-manager.service - Manage bandwidth usage
+   Loaded: loaded (/etc/systemd/system/tt-bandwidth-manager.service; enabled; vendor preset: enabled)
+   Active: active (running) since Wed 2020-09-30 10:36:45 WAT; 1h 39min ago
+ Main PID: 21915 (tt-wrapper)
+    Tasks: 2 (limit: 4915)
+   CGroup: /system.slice/tt-bandwidth-manager.service
+           ├─21915 /bin/bash /usr/bin/tt-wrapper
+           └─21955 /usr/bin/python3 /usr/bin/tt wlp2s0 /etc/tt-config.yaml
+
+[...recent log output...]
+```
+The output shows that the managed device is still wlp2s0 and the config file is found that /etc/tt-config.yaml. Restart the service and verify that it's managing the VPN:
+```bash
+$ systemctl restart tt-bandwidth-manager.service
+$ systemctl status tt-bandwidth-manager.service
+● tt-bandwidth-manager.service - Manage bandwidth usage
+   Loaded: loaded (/etc/systemd/system/tt-bandwidth-manager.service; enabled; vendor preset: enabled)
+   Active: active (running) since Wed 2020-09-30 12:31:26 WAT; 3s ago
+ Main PID: 5773 (tt-wrapper)
+    Tasks: 2 (limit: 4915)
+   CGroup: /system.slice/tt-bandwidth-manager.service
+           ├─5773 /bin/bash /usr/bin/tt-wrapper
+           └─5795 /usr/bin/python3 /usr/bin/tt wgpia0 /etc/tt-config.yaml
+```
 
 ## About
 **tt-bandwidth-manager** is based on the [TrafficToll](https://github.com/cryzed/TrafficToll) python3 package developed by [cryzed](https://github.com/cryzed), but it's built as a debian package and modified to run as a systemd service.
