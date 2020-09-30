@@ -5,21 +5,8 @@ Manage bandwidth usage via a systemd service by:
 - prioritizing some processes higher than others
 
 ### Use cases
-- Use the bandwidth limits if you pay for data by the MB; e.g. you don't want your audio or video calls to use more data than they absolutely need.
-- Use prioritization if your available bandwidth is limited; e.g. you want to ensure that your audio calls go through, even if you're also downloading updates.
-
-### About
-**tt-bandwidth-manager** is based on the [TrafficToll](https://github.com/cryzed/TrafficToll) python3 package developed by [cryzed](https://github.com/cryzed), but it's built as a debian package and modified to run as a systemd service.
-
-It's composed of 4 parts:
-- The traffictoll python3 package whose executable is installed at /usr/local/bin/tt.
-- A default config file installed at /etc/tt-config.yaml.
-  - There is also an example config file at /usr/share/tt-bandwidth-manager/tt-example.yaml.
-- A wrapper script installed at /usr/bin/tt-wrapper that:
-  - selects the current networking device
-  - selects the correct configuration file
-  - starts the tt executable
-- A service unit file called tt-bandwidth-manager.service that configures systemd to manage the process.
+- Use the *bandwidth limits* if you pay for data by the MB; e.g. you don't want your audio or video calls to use more data than they absolutely need.
+- Use *prioritization* if your available bandwidth is limited; e.g. you want to ensure that your audio calls go through, even if you're also downloading updates.
 
 ### Modifying the default bandwidth management configuration
 The [default config](config/tt-default-config.yaml) is intentionally very conservative. It limits a couple of processes and gives some explanatory info. This config file requires elevated privileges to edit, so for convenience you may create a user config file under ~/.config/ like this:
@@ -49,3 +36,16 @@ $ journalctl -u tt-bandwidth-manager.service          # full historical log
 $ journalctl -f -u tt-bandwidth-manager.service       # "follow" the log live
 ```
 ![screenshot](screenshot.png)
+
+### About
+**tt-bandwidth-manager** is based on the [TrafficToll](https://github.com/cryzed/TrafficToll) python3 package developed by [cryzed](https://github.com/cryzed), but it's built as a debian package and modified to run as a systemd service.
+
+It's composed of 4 parts:
+- The traffictoll python3 package whose executable is installed at /usr/bin/tt.
+- A default config file installed at /etc/tt-config.yaml.
+  - There is also an example config file at /usr/share/tt-bandwidth-manager/tt-example.yaml.
+- A wrapper script installed at /usr/bin/tt-wrapper that:
+  - selects the current networking device
+  - selects the correct configuration file
+  - starts the tt executable
+- A service unit file called tt-bandwidth-manager.service that configures systemd to manage the process.
