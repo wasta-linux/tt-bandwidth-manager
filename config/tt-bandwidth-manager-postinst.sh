@@ -12,3 +12,4 @@ echo "Starting tt-bandwidth-manager.service..."
 systemctl daemon-reload
 systemctl enable tt-bandwidth-manager.service
 systemctl restart tt-bandwidth-manager.service
+exit 0
