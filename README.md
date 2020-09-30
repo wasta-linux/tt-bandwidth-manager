@@ -9,13 +9,14 @@ Manage bandwidth usage via a systemd service by:
 - Use *prioritization* if your available bandwidth is limited; e.g. you want to ensure that your audio calls go through, even if you're also downloading updates.
 
 ## Modifying the default bandwidth management configuration
-The [default config](config/tt-default-config.yaml) is intentionally very conservative. It limits a couple of processes and gives some explanatory info. This config file requires elevated privileges to edit, e.g.:
+The [default config](config/tt-default-config.yaml) is intentionally very conservative. It limits a couple of processes and gives some explanatory info. It is found at [/usr/share/tt-bandwidth-manager/tt-config.yaml](config/tt-default-config.yaml) and is installed to /etc/tt-config.yaml if it doesn't already exist.
+This config file requires elevated privileges to edit, e.g.:
 ```bash
 $ sudo nano /etc/tt-config.yaml
 ```
-This file is created during installation or an update only if it doesn't already exist. So if you make changes, they won't be lost after an update.
+This file is not overwritten during installation or update, so any changes you make are preserved.
 
-Explanations of configuration options can be found in the default config file at [/etc/tt-config.yaml](config/tt-default-config.yaml), as well as in an example file at [/usr/share/tt-bandwidth-manager/tt-example.yaml](config/tt-example.yaml) created by [cryzed](https://github.com/cryzed).
+Explanations of configuration options can be found in the default config file , as well as in an example file at [/usr/share/tt-bandwidth-manager/tt-example.yaml](config/tt-example.yaml) created by [cryzed](https://github.com/cryzed).
 
 ## Starting and stopping tt-bandwidth-manager.service
 By default the service runs whenever there is a connection to the internet. It can be started and stopped with the usual systemd commands:

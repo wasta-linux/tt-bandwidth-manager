@@ -8,16 +8,6 @@ echo "Setup.device: $device"
 
 # Define default config.
 config="/etc/tt-config.yaml"
-# Override with user config, if it exists.
-# Get [potential list of] user config file(s) and sort by modified time, newest first.
-user_config_list=$(find /home/*/.config -name tt-config.yaml \
-    -exec stat -c '%Y|%n' '{}' \; | sort -rn | awk -F'|' '{print $2}')
-# Choose newest file as preferred user config.
-user_config=$(echo $user_config_list | awk '{print $1}')
-#echo "Setup; user config (if found): $user_config"
-if [[ -r $user_config ]]; then
-    config="$user_config"
-fi
 echo "Setup.config: $config"
 
 # Start TrafficToll.
