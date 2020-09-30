@@ -9,14 +9,14 @@ Manage bandwidth usage via a systemd service by:
 - Use *prioritization* if your available bandwidth is limited; e.g. you want to ensure that your audio calls go through, even if you're also downloading updates.
 
 ## Modifying the default bandwidth management configuration
-The [default config](config/tt-default-config.yaml) is intentionally very conservative. It limits a couple of processes and gives some explanatory info. It is found at [/usr/share/tt-bandwidth-manager/tt-config.yaml](config/tt-default-config.yaml) and is installed to /etc/tt-config.yaml if it doesn't already exist.
+The [default config](config/tt-default-config.yaml) is intentionally conservative. It limits a couple of processes and gives some explanatory info. It is found at [/usr/share/tt-bandwidth-manager/tt-config.yaml](config/tt-default-config.yaml) and is installed to /etc/tt-config.yaml if it doesn't already exist.
 This config file requires elevated privileges to edit, e.g.:
 ```bash
 $ sudo nano /etc/tt-config.yaml
 ```
 This file is not overwritten during installation or update, so any changes you make are preserved.
 
-Explanations of configuration options can be found in the default config file , as well as in an example file at [/usr/share/tt-bandwidth-manager/tt-example.yaml](config/tt-example.yaml) created by [cryzed](https://github.com/cryzed).
+Explanations of configuration options can be found in the default config file, as well as in an example file at [/usr/share/tt-bandwidth-manager/tt-example.yaml](config/tt-example.yaml) created by [cryzed](https://github.com/cryzed), who developed the python3 package TrafficToll, upon which I've built this systemd service package.
 
 ## Starting and stopping tt-bandwidth-manager.service
 By default the service runs whenever there is a connection to the internet. It can be started and stopped with the usual systemd commands:
@@ -42,7 +42,7 @@ Normally, if you change your connection device (e.g. from Wi-Fi to Ethernet), **
 
 If ```systemctl status tt-bandwidth-manager.service``` shows that the app is managing a network interface other than the current one, e.g. wlp2s0 (Wi-Fi device interface) instead of wgpia0 (wireguard VPN interface), please use ```systemctl restart tt-bandwidth-manager.service``` to update it. This may also be needed when the VPN is turned off, if the VPN's interface still exists.
 
-For example, you've been using **tt-bandwidth-manager** and you just turned on your PIA VPN:
+For example, maybe you've been using **tt-bandwidth-manager** and you just turned on your PIA VPN:
 ```bash
 $ ip -br address
 lo               UNKNOWN        127.0.0.1/8 ::1/128
@@ -50,7 +50,7 @@ wlp2s0           UP             192.168.43.56/24 [ipv6 address]/64 # Wi-Fi inter
 ifb0             UNKNOWN        [ipv6 address]/64                  # interface created by tt-bandwidth-manager
 wgpia0           UNKNOWN        10.63.229.219/32                   # PIA VPN interface
 ```
-But **tt-bandwidth-manager** is still managing traffic on wlp2s0 (see the last line before recent log output):
+But **tt-bandwidth-manager** is still managing traffic on wlp2s0 (see the last line before the recent log output):
 ```bash
 $ systemctl status tt-bandwidth-manager.service
 ● tt-bandwidth-manager.service - Manage bandwidth usage
@@ -64,7 +64,7 @@ $ systemctl status tt-bandwidth-manager.service
 
 [...recent log output...]
 ```
-The output shows that the managed device is still wlp2s0 and the config file is found that /etc/tt-config.yaml. Restart the service and verify that it's managing the VPN:
+The output shows that the managed device is still wlp2s0. Restart the service and verify that it's now managing traffic over the VPN interface:
 ```bash
 $ systemctl restart tt-bandwidth-manager.service
 $ systemctl status tt-bandwidth-manager.service
