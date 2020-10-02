@@ -1,9 +1,24 @@
 #!/bin/bash
 
 # Select device based on current internet route.
-#   ip route's default isn't the real gateway when there's a WireGuard VPN interface
-real_gw=$(traceroute -m1 -n google.com | tail -n1 | awk '{print $2}')
+#   ip route's "default" isn't the real gateway when there's a WireGuard VPN interface
+real_gw=$(traceroute -m1 -n google.com 2>/dev/null | tail -n1 | awk '{print $2}')
+if [[ ! $real_gw ]]; then
+    echo "No internet connection. Will try again periodically until the connection returns..."
+fi
+while [[ ! $real_gw ]]; do
+    sleep 5s
+    real_gw=$(traceroute -m1 -n google.com 2>/dev/null | tail -n1 | awk '{print $2}')
+done
 device=$(ip route | grep "$real_gw " | sed -r 's/default via //' | awk '{print $3}')
+if [[ ! $device ]]; then
+    # Fallback to trying 'default' device if traceroute 1st hop didn't work.
+    device=$(ip route | grep 'default via' | awk '{print $5}')
+    if [[ ! $device ]]; then
+        echo "Failed to determine gateway device."
+        exit 1
+    fi
+fi
 echo "Setup.device: $device"
 
 # Define default config.
