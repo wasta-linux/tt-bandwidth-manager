@@ -1,3 +1,9 @@
+tt-bandwidth-manager (0.4.4) focal; urgency=medium
+
+  * Fix problem when >1 default route is found.
+
+ -- Nate Marti <nate_marti@sil.org>  Mon, 09 Nov 2020 16:07:03 +0100
+
 tt-bandwidth-manager (0.4.3) focal; urgency=medium
 
   * Handle offline status better.
